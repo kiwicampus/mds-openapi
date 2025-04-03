@@ -1,0 +1,244 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MDS Provider API",
+    "version": "1.0.0",
+    "description": "Initial stub for implementing Mobility Data Specification (MDS) Provider API."
+  },
+  "paths": {
+    "/provider/vehicles": {
+      "get": {
+        "summary": "Get current state of all active vehicles",
+        "tags": [
+          "Provider"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of active vehicles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vehicle"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/provider/status_changes": {
+      "get": {
+        "summary": "Get vehicle status changes",
+        "tags": [
+          "Provider"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of status change events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StatusChange"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/provider/trips": {
+      "get": {
+        "summary": "Get completed trips",
+        "tags": [
+          "Provider"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of trips",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trip"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Vehicle": {
+        "type": "object",
+        "properties": {
+          "vehicle_id": {
+            "type": "string"
+          },
+          "vehicle_type": {
+            "type": "string"
+          },
+          "propulsion_type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "current_status": {
+            "type": "string"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "current_location": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lng": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "vehicle_id",
+          "vehicle_type",
+          "propulsion_type",
+          "current_status",
+          "last_updated",
+          "current_location"
+        ]
+      },
+      "StatusChange": {
+        "type": "object",
+        "properties": {
+          "event_type": {
+            "type": "string"
+          },
+          "event_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vehicle_id": {
+            "type": "string"
+          },
+          "event_location": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lng": {
+                "type": "number"
+              }
+            }
+          },
+          "associated_trip": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_type",
+          "event_time",
+          "vehicle_id",
+          "event_location"
+        ]
+      },
+      "Trip": {
+        "type": "object",
+        "properties": {
+          "trip_id": {
+            "type": "string"
+          },
+          "vehicle_id": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "start_location": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lng": {
+                "type": "number"
+              }
+            }
+          },
+          "end_location": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lng": {
+                "type": "number"
+              }
+            }
+          },
+          "trip_distance": {
+            "type": "number"
+          },
+          "trip_duration": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "trip_id",
+          "vehicle_id",
+          "start_time",
+          "end_time",
+          "start_location",
+          "end_location",
+          "trip_distance",
+          "trip_duration"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://your-auth-server.com/oauth/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  }
+}
