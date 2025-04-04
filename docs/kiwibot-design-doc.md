@@ -90,6 +90,9 @@ This document outlines the architecture, design decisions, and implementation st
 
 ### Trips (`GET /trips`) 
 
+Candidate table: kiwibot-atlas.mds.trips
+Pipeline: Not deployed
+
 | MDS Field         | Internal Field             |
 |-------------------|----------------------------|
 | `trip_id`         | `step_id`                  |
